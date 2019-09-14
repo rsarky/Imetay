@@ -3,7 +3,16 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebaseConfig: {
+    apiKey: "AIzaSyC7fYkJQO_UlaqBbFL6p74EzrAyDoxTwK8",
+    authDomain: "ogdry-synerge.firebaseapp.com",
+    databaseURL: "https://ogdry-synerge.firebaseio.com",
+    projectId: "ogdry-synerge",
+    storageBucket: "",
+    messagingSenderId: "109396340110",
+    appId: "1:109396340110:web:975797a8e991b855b248df"
+  }
 };
 
 /*

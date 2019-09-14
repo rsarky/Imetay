@@ -1,0 +1,26 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            <h3>New Appointment</h3>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form (ngSubmit)="newAppointment()">
+            <mat-form-field>
+                <input matInput type="" placeholder="Patient Phone No" name="phoneno" required>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <input matInput placeholder="Doctor Name" name="docname" required>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <input matInput type="" placeholder="Ailment" name="ailment" required>
+            </mat-form-field>
+        </form>
+        <!-- <div *ngIf="showError">
+          <p style=" color: red">Invalid email-id password combination</p>
+        </div> -->
+        <!-- <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> -->
+    </mat-card-content>
+</mat-card>
