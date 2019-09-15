@@ -5,9 +5,9 @@
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <form (ngSubmit)="newAppointment()">
+        <form (ngSubmit)="createAppointment()">
             <mat-form-field>
-                <input matInput type="" placeholder="Patient Phone No" name="phoneno" required>
+                <input matInput type="number" placeholder="Patient Phone No" name="phoneno" [(ngModel)]="phoneNum" required>
             </mat-form-field>
             <br>
             <mat-form-field>

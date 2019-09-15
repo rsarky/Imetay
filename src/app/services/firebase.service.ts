@@ -37,9 +37,11 @@ export class FirebaseService {
 
     createAppointment(appointment: Appointment) {
         appointment.waitingTime = this.calculateWaitingTime()
+        appointment.appointmentTime = new Date().toDateString()
         let appointmentData = {
             patientUID: appointment.patientUID,
             doctorUID: appointment.doctorUID,
+            appointmentTime: appointment.appointmentTime,
             inTime: appointment.inTime,
             outTime: appointment.outTime,
             waitingTime: appointment.waitingTime,
