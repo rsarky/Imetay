@@ -17,6 +17,12 @@ export class FirebaseService {
     }
 
     registerPatient(patient: Patient) {
-        this.patientsRef.push({name: patient.name, phoneNumber: patient.phoneNumber})
+        let patientData = {
+            name: patient.name,
+            phoneNumber: patient.phoneNumber,
+            numNoShow: patient.numNoShow,
+            pastAppointments: patient.pastAppointments
+        }
+        this.patientsRef.push(patientData)
     }
 }

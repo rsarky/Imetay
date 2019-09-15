@@ -5,4 +5,9 @@ export class Patient {
     phoneNumber: string
     numNoShow: number
     pastAppointments: Appointment[]
+
+    constructor() {
+        this.numNoShow = 0
+        this.pastAppointments = null
+    }
 }

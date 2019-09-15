@@ -22,6 +22,7 @@ export class PatientFormComponent implements OnInit {
 
   onRegister() {
     this.db.registerPatient(this.patient)
+    this.patient = new Patient()
   }
 
 }
