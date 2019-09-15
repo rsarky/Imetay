@@ -1,6 +1,8 @@
 import { Appointment } from './Appointment'
 export class Doctor {
     uid: string
-    upcomingAppointments: Appointment[]
-    pastAppointments: Appointment[]
+    name: string
+    email: string
+    department: string
+    appointments: Appointment[]
 }

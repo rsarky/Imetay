@@ -16,13 +16,17 @@ import { MatButtonModule, MatCheckboxModule, MatAccordion } from '@angular/mater
 import { MatCardModule } from '@angular/material/card';
 import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
 
-import { FirebaseService } from './services/firebase.service'
+import { FirebaseService } from './services/firebase.service';
+import { LoginSignupComponent } from './login-signup/login-signup.component'
+import { AuthService } from './services/auth.service';
+import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
     AppComponent,
     PatientFormComponent,
-    AppointmentFormComponent
+    AppointmentFormComponent,
+    LoginSignupComponent
   ],
   imports: [
     BrowserModule,
@@ -34,9 +38,11 @@ import { FirebaseService } from './services/firebase.service'
     MatFormFieldModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   providers: [
-    FirebaseService
+    FirebaseService,
+    AuthService,
   ],
   bootstrap: [AppComponent]
 })

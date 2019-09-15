@@ -4,6 +4,7 @@ import { Observable } from 'rxjs'
 
 import { Patient } from '../models/Patient'
 import { Appointment } from '../models/Appointment'
+import { Doctor } from '../models/Doctor'
 
 @Injectable({
     providedIn: 'root'
@@ -11,15 +12,17 @@ import { Appointment } from '../models/Appointment'
 export class FirebaseService {
     patientsRef: AngularFireList<any>
     appointmentsRef: AngularFireList<any>
+    doctorsRef: AngularFireList<any>
     db: AngularFireDatabase
 
     constructor(db: AngularFireDatabase) {
         this.db = db
         this.patientsRef = db.list('patients')
         this.appointmentsRef = db.list('appointments')
+        this.doctorsRef = db.list('doctors')
     }
 
-    registerPatient(patient: Patient) {
+    registerPatient(patient: Patient): firebase.database.ThenableReference {
         // TODO: Handle duplicate phone numbers in patients.
         let patientData = {
             name: patient.name,
@@ -27,7 +30,7 @@ export class FirebaseService {
             numNoShow: patient.numNoShow,
             pastAppointments: patient.pastAppointments
         }
-        this.patientsRef.push(patientData)
+        return this.patientsRef.push(patientData)
     }
 
     calculateWaitingTime() {
@@ -35,7 +38,7 @@ export class FirebaseService {
         return "dummy"
     }
 
-    createAppointment(appointment: Appointment) {
+    createAppointment(appointment: Appointment): firebase.database.ThenableReference {
         appointment.waitingTime = this.calculateWaitingTime()
         appointment.appointmentTime = new Date().toDateString()
         let appointmentData = {
@@ -48,6 +51,17 @@ export class FirebaseService {
             ailment: appointment.ailment
         }
 
-        this.appointmentsRef.push(appointmentData)
+        return this.appointmentsRef.push(appointmentData)
+    }
+
+    addDoctor(doctor: Doctor): firebase.database.ThenableReference {
+        let doctorData = {
+            name: doctor.name,
+            email: doctor.email,
+            department: doctor.department,
+            appointments: null
+        }
+
+        return this.doctorsRef.push(doctorData)
     }
 }
