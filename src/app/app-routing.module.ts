@@ -7,11 +7,11 @@ import { ReceptionViewComponent } from './reception-view/reception-view.componen
 import { DoctorViewComponent } from './doctor-view/doctor-view.component';
 
 const appRoutes = [
-  { path: '', component: PatientViewComponent },
   { path: 'user/login', component: LoginSignupComponent },
   { path: 'user/reception', component: ReceptionViewComponent }, // TODO: Add authguard here
   { path: 'user/doctor', component: DoctorViewComponent }, // TODO: Add authguard here.
-  { path: '**', component: PatientViewComponent }
+  { path: '', component: PatientViewComponent },
+  { path: '**', redirectTo: '', component: PatientViewComponent }
 ]
 
 @NgModule({
