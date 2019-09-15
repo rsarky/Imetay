@@ -7,7 +7,12 @@
     <mat-card-content>
         <form (ngSubmit)="createAppointment()">
             <mat-form-field>
-                <input matInput type="number" placeholder="Patient Phone No" name="phoneno" [(ngModel)]="phoneNum" required>
+                <input matInput type="text" placeholder="Patient Phone No" name="phoneno" [(ngModel)]="phoneNum" required pattern="[0-9]{10}" #numberCheck="ngModel">
+                <div *ngIf="numberCheck.dirty || numberCheck.touched" class="alert alert-danger">
+                    <div *ngIf="numberCheck.errors">
+                        Enter Valid Number
+                    </div>
+                </div>
             </mat-form-field>
             <br>
             <mat-form-field>

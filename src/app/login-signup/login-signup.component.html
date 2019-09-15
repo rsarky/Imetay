@@ -7,11 +7,20 @@
     <mat-card-content>
         <form (ngSubmit)="login()" #loginForm="ngForm">
             <mat-form-field>
-                <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email" email required>
+                <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email" email required pattern="[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+" #emailCheck="ngModel">
+                <div *ngIf="(emailCheck.dirty || emailCheck.touched)" class="alert alert-danger">
+                    <div *ngIf="emailCheck.errors">
+                        Enter valid email 
+                    </div>
+                </div>
             </mat-form-field>
-            <br>
             <mat-form-field>
-                <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
+                <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required minlength="6" #passwordCheck="ngModel">
+                <div *ngIf="passwordCheck.invalid && (passwordCheck.dirty || passwordCheck.touched)" class="alert alert-danger">
+                    <div *ngIf="passwordCheck.errors.minlength">
+                        at least 6 characters long
+                    </div>
+                </div>
             </mat-form-field>
         </form>
         <!-- <div *ngIf="showError">
@@ -39,11 +48,21 @@
             </mat-form-field>
             <br>
             <mat-form-field>
-                <input matInput type="email" placeholder="Email" [(ngModel)]="doctor.email" name="email" email required>
+                <input matInput type="email" placeholder="Email" [(ngModel)]="doctor.email" name="email" email required pattern="[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+" #emailCheck="ngModel">
+                <div *ngIf="(emailCheck.dirty || emailCheck.touched)" class="alert alert-danger">
+                    <div *ngIf="emailCheck.errors">
+                        Enter valid email 
+                    </div>
+                </div>
             </mat-form-field>
             <br>
             <mat-form-field>
-                <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
+                <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required minlength="6" #passwordCheck="ngModel">
+                    <div *ngIf="passwordCheck.invalid && (passwordCheck.dirty || passwordCheck.touched)" class="alert alert-danger">
+                    <div *ngIf="passwordCheck.errors.minlength">
+                        at least 6 characters long
+                    </div>
+                </div>
             </mat-form-field>
         </form>
         <!-- <div *ngIf="showError">
