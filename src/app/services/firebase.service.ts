@@ -5,6 +5,7 @@ import { Observable } from 'rxjs'
 import { Patient } from '../models/Patient'
 import { Appointment } from '../models/Appointment'
 import { Doctor } from '../models/Doctor'
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
     providedIn: 'root'
@@ -12,14 +13,14 @@ import { Doctor } from '../models/Doctor'
 export class FirebaseService {
     patientsRef: AngularFireList<any>
     appointmentsRef: AngularFireList<any>
-    doctorsRef: AngularFireList<any>
+    usersRef: any
     db: AngularFireDatabase
 
     constructor(db: AngularFireDatabase) {
         this.db = db
         this.patientsRef = db.list('patients')
         this.appointmentsRef = db.list('appointments')
-        this.doctorsRef = db.list('doctors')
+        this.usersRef = db.list('users') // receptionist and doctors
     }
 
     registerPatient(patient: Patient): firebase.database.ThenableReference {
@@ -54,14 +55,15 @@ export class FirebaseService {
         return this.appointmentsRef.push(appointmentData)
     }
 
-    addDoctor(doctor: Doctor): firebase.database.ThenableReference {
+    addDoctor(doctor: Doctor, uid: string): firebase.database.ThenableReference {
         let doctorData = {
             name: doctor.name,
             email: doctor.email,
             department: doctor.department,
-            appointments: null
+            appointments: null,
+            isDoctor: true
         }
 
-        return this.doctorsRef.push(doctorData)
+        return this.usersRef.set(uid, doctorData)
     }
 }

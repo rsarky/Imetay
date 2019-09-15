@@ -28,7 +28,7 @@ export class LoginSignupComponent implements OnInit {
     this.auth.emailSignup(this.doctor.email, this.password)
     .then((cred) => {
       console.log(cred)
-      this.db.addDoctor(this.doctor)
+      this.db.addDoctor(this.doctor, cred.user.uid)
     })
     .catch((e) => {
       console.log(e)
