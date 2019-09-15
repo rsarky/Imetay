@@ -20,13 +20,20 @@ import { FirebaseService } from './services/firebase.service';
 import { LoginSignupComponent } from './login-signup/login-signup.component'
 import { AuthService } from './services/auth.service';
 import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
+import { AppRoutingModule } from './app-routing.module';
+import { PatientViewComponent } from './patient-view/patient-view.component';
+import { ReceptionViewComponent } from './reception-view/reception-view.component';
+import { DoctorViewComponent } from './doctor-view/doctor-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PatientFormComponent,
     AppointmentFormComponent,
-    LoginSignupComponent
+    LoginSignupComponent,
+    PatientViewComponent,
+    ReceptionViewComponent,
+    DoctorViewComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +45,8 @@ import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
     MatFormFieldModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AppRoutingModule
   ],
   providers: [
     FirebaseService,
