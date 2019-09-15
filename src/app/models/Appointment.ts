@@ -1,5 +1,4 @@
 export class Appointment {
-    appointmentID: string
     patientUID: string
     doctorUID: string
     inTime: string

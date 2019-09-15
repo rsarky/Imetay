@@ -21,6 +21,7 @@ export class PatientFormComponent implements OnInit {
   }
 
   onRegister() {
+    // TODO : Add some animation here.
     this.db.registerPatient(this.patient)
     this.patient = new Patient()
   }
