@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  firebaseConfig: {
+  firebase: {
     apiKey: "AIzaSyC7fYkJQO_UlaqBbFL6p74EzrAyDoxTwK8",
     authDomain: "ogdry-synerge.firebaseapp.com",
     databaseURL: "https://ogdry-synerge.firebaseio.com",

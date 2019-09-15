@@ -5,14 +5,16 @@
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <form (ngSubmit)="register()">
-            <mat-form-field class="example-full-width">
-                <input matInput type="" placeholder="Name" name="name" required>
+        <form (ngSubmit)="onRegister()">
+            <mat-form-field>
+                <input matInput type="" placeholder="Name" name="name" [(ngModel)]="patient.name" required>
             </mat-form-field>
             <br>
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="Phone No" type="number" name="phoneno" required>
+            <mat-form-field>
+                <input matInput placeholder="Phone No" type="number" name="phoneno" [(ngModel)]="patient.phoneNumber" required>
             </mat-form-field>
+            <br>
+            <button mat-raised-button color="primary" type="submit">Register</button>
         </form>
         <!-- <div *ngIf="showError">
           <p style=" color: red">Invalid email-id password combination</p>
