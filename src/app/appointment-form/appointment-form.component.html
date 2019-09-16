@@ -8,17 +8,18 @@
         <form (ngSubmit)="createAppointment()">
             <mat-form-field>
                 <input matInput type="text" placeholder="Patient Phone No" name="phoneno" [(ngModel)]="phoneNum" required pattern="[0-9]{10}" #numberCheck="ngModel">
-                <div *ngIf="numberCheck.dirty || numberCheck.touched" class="alert alert-danger">
-                    <div *ngIf="numberCheck.errors">
-                        Enter Valid Number
-                    </div>
-                </div>
+                <mat-error *ngIf="(numberCheck.dirty || numberCheck.touched) && numberCheck.errors" class="alert alert-danger">
+                    Enter Valid Number
+                </mat-error>
             </mat-form-field>
             <br>
+            <br> 
             <mat-form-field>
                 <input matInput placeholder="Doctor Name" name="docname" required>
             </mat-form-field>
             <br>
+            <br> 
+            
             <mat-form-field>
                 <input matInput type="" placeholder="Ailment" name="ailment" required>
             </mat-form-field>
