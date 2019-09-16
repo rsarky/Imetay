@@ -57,7 +57,7 @@ export class FirebaseService {
         appointment.waitingTime = this.calculateWaitingTime()
         appointment.appointmentTime = new Date().toDateString()
         let appointmentData = {
-            doctorUID: "dummy", // appointment.doctorUID, // Passed from UI
+            doctorUID: appointment.doctorUID, // Passed from UI
             appointmentTime: appointment.appointmentTime,
             waitingTime: appointment.waitingTime,
             ailment: appointment.ailment
@@ -87,5 +87,20 @@ export class FirebaseService {
         }
 
         return this.usersRef.set(uid, doctorData)
+    }
+
+    getDoctors(): Observable<any> { // TODO define type
+        return this.db.list('/users', ref => ref.orderByChild('isDoctor').equalTo(true))
+        .snapshotChanges()
+        .pipe(
+            map((snapshot) => {
+                return snapshot.map((doc) => {
+                    return {
+                        "name": (doc.payload.val() as any).name,
+                        "id": doc.key
+                    }
+                })
+            })
+        )
     }
 }

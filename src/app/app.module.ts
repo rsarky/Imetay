@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule, MatCheckboxModule, MatAccordion } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import { FirebaseService } from './services/firebase.service';
 import { LoginSignupComponent } from './login-signup/login-signup.component'
@@ -43,6 +44,7 @@ import { DoctorViewComponent } from './doctor-view/doctor-view.component';
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatAutocompleteModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
