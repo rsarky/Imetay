@@ -6,7 +6,7 @@ import { Patient } from '../models/Patient'
 import { Appointment } from '../models/Appointment'
 import { Doctor } from '../models/Doctor'
 import { AngularFireAuth } from '@angular/fire/auth';
-
+import { map, single, take, catchError, first } from 'rxjs/operators'
 @Injectable({
     providedIn: 'root'
 })
@@ -39,20 +39,42 @@ export class FirebaseService {
         return "dummy"
     }
 
-    createAppointment(appointment: Appointment): firebase.database.ThenableReference {
+    /* Returns patient id given a phone number*/
+    getPatientFromPhone(phoneNumber: number): Observable<string> {
+        let data
+        return this.db.list('/patients', ref => ref.orderByChild('phoneNumber').equalTo(phoneNumber))
+            .snapshotChanges()
+            .pipe(
+                first(),
+                map(s => {
+                    if (!s.length) throw 'No patient associated with the given phone number'
+                    return s[0].key
+                })
+            )
+    }
+
+    createAppointment(appointment: Appointment, phoneNumber: number): Observable<firebase.database.ThenableReference> {
         appointment.waitingTime = this.calculateWaitingTime()
         appointment.appointmentTime = new Date().toDateString()
         let appointmentData = {
-            patientUID: appointment.patientUID,
-            doctorUID: appointment.doctorUID,
+            doctorUID: "dummy", // appointment.doctorUID, // Passed from UI
             appointmentTime: appointment.appointmentTime,
-            inTime: appointment.inTime,
-            outTime: appointment.outTime,
             waitingTime: appointment.waitingTime,
             ailment: appointment.ailment
         }
 
-        return this.appointmentsRef.push(appointmentData)
+        // this.getPatientFromPhone(phoneNumber).subscribe((id) => {
+        //     appointmentData['patientUID'] = id
+        // }, (err) => { throw (err) }
+        // )
+        // return this.appointmentsRef.push(appointmentData)
+        return this.getPatientFromPhone(phoneNumber).pipe(
+            map((id) => {
+                appointmentData['patientUID'] = id
+                return this.appointmentsRef.push(appointmentData)
+            })
+        )
+
     }
 
     addDoctor(doctor: Doctor, uid: string): firebase.database.ThenableReference {

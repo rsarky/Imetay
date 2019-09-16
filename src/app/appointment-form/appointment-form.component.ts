@@ -20,8 +20,12 @@ export class AppointmentFormComponent implements OnInit {
   }
 
   createAppointment() {
-    // TODO add animation and error handling.
-    this.db.createAppointment(this.appointment)
+    // TODO add animation
+    this.db.createAppointment(this.appointment, this.phoneNum)
+    .subscribe(
+      (e) => e.then((ref) => console.log("Appointment created")),
+      (err) => console.log(err) // TODO error to be handled on UI side.
+    )
   }
 
 }

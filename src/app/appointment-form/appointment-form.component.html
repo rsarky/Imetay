@@ -15,8 +15,10 @@
             </mat-form-field>
             <br>
             <mat-form-field>
-                <input matInput type="" placeholder="Ailment" name="ailment" required>
+                <input matInput type="" placeholder="Ailment" name="ailment" [(ngModel)]="appointment.ailment" required>
             </mat-form-field>
+            <br>
+            <button mat-raised-button color="primary" type="submit">Submit</button>
         </form>
         <!-- <div *ngIf="showError">
           <p style=" color: red">Invalid email-id password combination</p>

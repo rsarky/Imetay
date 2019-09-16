@@ -5,8 +5,10 @@ export class Patient {
     numNoShow: number
     pastAppointments: Appointment[]
 
-    constructor() {
-        this.numNoShow = 0
-        this.pastAppointments = null
+    constructor(obj?: any) {
+        this.name = obj && obj.name || null
+        this.numNoShow = obj && obj.numNoShow || 0
+        this.pastAppointments = obj && obj.pastAppointments || null
+        this.phoneNumber = obj && obj.phoneNumber || null
     }
 }
