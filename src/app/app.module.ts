@@ -15,7 +15,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule, MatCheckboxModule, MatAccordion } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
 
 import { FirebaseService } from './services/firebase.service';
 import { LoginSignupComponent } from './login-signup/login-signup.component'
@@ -25,6 +27,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { PatientViewComponent } from './patient-view/patient-view.component';
 import { ReceptionViewComponent } from './reception-view/reception-view.component';
 import { DoctorViewComponent } from './doctor-view/doctor-view.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,8 @@ import { DoctorViewComponent } from './doctor-view/doctor-view.component';
     LoginSignupComponent,
     PatientViewComponent,
     ReceptionViewComponent,
-    DoctorViewComponent
+    DoctorViewComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +49,7 @@ import { DoctorViewComponent } from './doctor-view/doctor-view.component';
     MatButtonModule,
     MatFormFieldModule,
     MatAutocompleteModule,
+    MatToolbarModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
