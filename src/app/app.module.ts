@@ -31,6 +31,8 @@ import { PatientViewComponent } from './patient-view/patient-view.component';
 import { ReceptionViewComponent } from './reception-view/reception-view.component';
 import { DoctorViewComponent } from './doctor-view/doctor-view.component';
 import { HeaderComponent } from './header/header.component';
+import { LoginDoctorComponent } from './login-doctor/login-doctor.component';
+import { RegisterDoctorComponent } from './register-doctor/register-doctor.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { HeaderComponent } from './header/header.component';
     PatientViewComponent,
     ReceptionViewComponent,
     DoctorViewComponent,
-    HeaderComponent
+    HeaderComponent,
+    LoginDoctorComponent,
+    RegisterDoctorComponent
   ],
   imports: [
     BrowserModule,

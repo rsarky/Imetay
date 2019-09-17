@@ -1,0 +1,28 @@
+<mat-card-content>
+    <form (ngSubmit)="doctorSignup()" #signupForm="ngForm" class="doctor-form">
+        <mat-form-field>
+            <input matInput placeholder="Name" [(ngModel)]="doctor.name" name="name" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput placeholder="Department" [(ngModel)]="doctor.department" name="department" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput type="email" placeholder="Email" [(ngModel)]="doctor.email" name="email" email required>
+        </mat-form-field>
+        <br>
+        <mat-form-field [@animate]="{ value: '*', params: { x: '50px' } }">
+            <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
+            <mat-icon matSuffix [color]="color">lock</mat-icon> 
+        </mat-form-field>
+        
+    </form> 
+    <!-- <div *ngIf="showError">
+      <p style=" color: red">Invalid email-id password combination</p>
+    </div> -->
+    <!-- <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> -->
+ </mat-card-content>
+<mat-card-actions>
+    <button mat-raised-button (click)="doctorSignup()" color="primary" [disabled]="!signupForm.form.valid">Login</button>
+</mat-card-actions>

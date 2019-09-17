@@ -1,0 +1,18 @@
+<mat-card-content>
+    <form (ngSubmit)="login()" #loginForm="ngForm" class="doctor-form">
+        <mat-form-field>
+            <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email" email required>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
+        </mat-form-field>
+    </form> 
+    <!-- <div *ngIf="showError">
+    <p style=" color: red">Invalid email-id password combination</p>
+  </div> -->
+    <!-- <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> -->
+</mat-card-content>
+<mat-card-actions>
+    <button mat-raised-button (click)="login()" color="primary" [disabled]="!loginForm.form.valid">Login</button>
+</mat-card-actions>
