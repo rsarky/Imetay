@@ -1,2 +1,12 @@
-<app-patient-form></app-patient-form>
-<app-appointment-form></app-appointment-form>
+<div fxLayout="row">
+    <mat-card class="reception-card mat-elevation-z5">
+        <mat-tab-group class="reception-tabs" dynamicHeight>
+            <mat-tab label="New Appointment">
+                <app-appointment-form></app-appointment-form>
+            </mat-tab>
+            <mat-tab label="Register Patient">
+                <app-patient-form></app-patient-form>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card>
+</div>

@@ -1,34 +1,25 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>
-            <h3>New Appointment</h3>
-        </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <form (ngSubmit)="createAppointment()" #apptForm="ngForm">
-            <mat-form-field>
-                <input matInput type="number" placeholder="Patient Phone No" name="phoneno" [(ngModel)]="phoneNum" required>
-            </mat-form-field>
-            <br>
-            <mat-form-field>
-                <input matInput [matAutocomplete]="auto" placeholder="Doctor Name" name="docname" (ngModelChange)="doFilter()" [(ngModel)]="docName"
-                    (blur)="checkName()"  required >
-            </mat-form-field>
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="nameSelected($event.option.value)">
-                <mat-option *ngFor="let doctor of matchedDoctors | async" [value]="doctor.name">
-                    {{doctor.name}}
-                </mat-option>
-            </mat-autocomplete>
-            <br>
-            <mat-form-field>
-                <input matInput placeholder="Ailment" name="ailment" [(ngModel)]="appointment.ailment" required>
-            </mat-form-field>
-            <br>
-            <button mat-raised-button color="primary" type="submit" [disabled]="!apptForm.form.valid">Submit</button>
-        </form>
-        <!-- <div *ngIf="showError">
+<form fxLayout="column" (ngSubmit)="createAppointment()" #apptForm="ngForm" class="reception-form">
+    <mat-form-field>
+        <input matInput type="number" placeholder="Patient Phone No" name="phoneno" [(ngModel)]="phoneNum" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <input matInput [matAutocomplete]="auto" placeholder="Doctor Name" name="docname" (ngModelChange)="doFilter()" [(ngModel)]="docName"
+            (blur)="checkName()" required>
+    </mat-form-field>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="nameSelected($event.option.value)">
+        <mat-option *ngFor="let doctor of matchedDoctors | async" [value]="doctor.name">
+            {{doctor.name}}
+        </mat-option>
+    </mat-autocomplete>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="Ailment" name="ailment" [(ngModel)]="appointment.ailment" required>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!apptForm.form.valid">Submit</button>
+</form>
+<!-- <div *ngIf="showError">
           <p style=" color: red">Invalid email-id password combination</p>
         </div> -->
-        <!-- <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> -->
-    </mat-card-content>
-</mat-card>
+<!-- <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> -->

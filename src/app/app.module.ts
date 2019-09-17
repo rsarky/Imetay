@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { PatientFormComponent } from './patient-form/patient-form.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
 // Angular material
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,6 +18,8 @@ import { MatCardModule } from '@angular/material/card';
 import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTabsModule } from '@angular/material/tabs';
+
 
 
 import { FirebaseService } from './services/firebase.service';
@@ -47,13 +50,15 @@ import { HeaderComponent } from './header/header.component';
     MatInputModule,
     MatCardModule,
     MatButtonModule,
+    MatTabsModule,
     MatFormFieldModule,
     MatAutocompleteModule,
     MatToolbarModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FlexLayoutModule
   ],
   providers: [
     FirebaseService,

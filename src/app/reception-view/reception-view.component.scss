@@ -1,0 +1,16 @@
+div {
+    height: 100%;
+    .reception-card {
+        margin-top: 5%;
+        margin-left: 5%;
+        max-width: 400px;
+        min-height: 380px;
+        padding: 20px;
+        .reception-tabs {
+            padding: 10px;
+            mat-tab {
+                margin-bottom: 20px;
+            }
+        }
+    }
+}
