@@ -103,4 +103,10 @@ export class FirebaseService {
             })
         )
     }
+
+    isDoctor(uid: string): Observable<boolean> {
+        return this.db.object('/users/' + uid).valueChanges().pipe(
+            map(user => (user as Doctor).isDoctor)
+        )
+    }
 }

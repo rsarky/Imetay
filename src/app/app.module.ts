@@ -33,6 +33,7 @@ import { DoctorViewComponent } from './doctor-view/doctor-view.component';
 import { HeaderComponent } from './header/header.component';
 import { LoginDoctorComponent } from './login-doctor/login-doctor.component';
 import { RegisterDoctorComponent } from './register-doctor/register-doctor.component';
+import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { RegisterDoctorComponent } from './register-doctor/register-doctor.compo
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AppRoutingModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    AngularFireAuthGuardModule
   ],
   providers: [
     FirebaseService,

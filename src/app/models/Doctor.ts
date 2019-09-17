@@ -5,4 +5,5 @@ export class Doctor {
     email: string
     department: string
     appointments: Appointment[]
+    isDoctor: boolean
 }
