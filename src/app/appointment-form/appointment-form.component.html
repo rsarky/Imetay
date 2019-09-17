@@ -1,6 +1,9 @@
 <form fxLayout="column" (ngSubmit)="createAppointment()" #apptForm="ngForm" class="reception-form">
     <mat-form-field>
-        <input matInput type="number" placeholder="Patient Phone No" name="phoneno" [(ngModel)]="phoneNum" required>
+        <input matInput type="number" placeholder="Patient Phone No" name="phoneno" [(ngModel)]="phoneNum" required pattern="[0-9]{10}" #numberCheck="ngModel">
+        <mat-error *ngIf="(numberCheck.dirty || numberCheck.touched) && numberCheck.errors" class="alert alert-danger">
+            Enter Valid Number
+        </mat-error>
     </mat-form-field>
     <br>
     <mat-form-field>
