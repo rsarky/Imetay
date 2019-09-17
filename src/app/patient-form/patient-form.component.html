@@ -4,7 +4,10 @@
     </mat-form-field>
     <br>
     <mat-form-field>
-        <input matInput placeholder="Phone No" type="number" name="phoneno" [(ngModel)]="patient.phoneNumber" required>
+        <input matInput placeholder="Phone No" type="number" name="phoneno" [(ngModel)]="patient.phoneNumber" required  pattern="[0-9]{10}" #numberCheck="ngModel">
+        <mat-error *ngIf="(numberCheck.dirty || numberCheck.touched) && numberCheck.errors" class="alert alert-danger">
+            Enter Valid Number
+        </mat-error>
     </mat-form-field>
     <br>
     <span fxFlex></span>

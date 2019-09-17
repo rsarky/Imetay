@@ -1,11 +1,17 @@
 <mat-card-content>
     <form (ngSubmit)="login()" #loginForm="ngForm" class="doctor-form">
         <mat-form-field>
-            <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email" email required>
+            <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email" email required pattern="[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+" #emailCheck="ngModel">
+            <mat-error *ngIf="(emailCheck.dirty || emailCheck.touched) && emailCheck.errors" class="alert alert-danger">
+                Invalid Email
+            </mat-error>
         </mat-form-field>
         <br>
         <mat-form-field>
-            <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
+            <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required minlength="6" #passwordCheck="ngModel">
+            <mat-error *ngIf="passwordCheck.invalid && (passwordCheck.dirty || passwordCheck.touched) && passwordCheck.errors.minlength" class="alert alert-danger">
+                Minimum 6 characters
+            </mat-error>
         </mat-form-field>
     </form> 
     <!-- <div *ngIf="showError">

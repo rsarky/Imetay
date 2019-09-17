@@ -9,7 +9,10 @@
         </mat-form-field>
         <br>
         <mat-form-field>
-            <input matInput type="email" placeholder="Email" [(ngModel)]="doctor.email" name="email" email required>
+            <input matInput type="email" placeholder="Email" [(ngModel)]="doctor.email" name="email" email required pattern="[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+" #emailCheck="ngModel">
+            <mat-error *ngIf="(emailCheck.dirty || emailCheck.touched) && emailCheck.errors" class="alert alert-danger">
+                Invalid Email
+            </mat-error>
         </mat-form-field>
         <br>
         <mat-form-field [@animate]="{ value: '*', params: { x: '50px' } }">
