@@ -4,6 +4,15 @@ export class Doctor {
     name: string
     email: string
     department: string
-    appointments: Appointment[]
     isDoctor: boolean
+
+    constructor(obj) {
+        if(obj) {
+            this.uid = obj.uid
+            this.name = obj.name
+            this.email = obj.email
+            this.department = obj.department
+            this.isDoctor = obj.isDoctor
+        }
+    }
 }

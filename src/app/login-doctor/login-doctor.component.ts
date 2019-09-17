@@ -15,7 +15,7 @@ export class LoginDoctorComponent implements OnInit {
   password: string
   doctor: Doctor
 
-  constructor(private auth: AuthService, private db: FirebaseService, private router: Router) {
+  constructor(private auth: AuthService, private router: Router, private db: FirebaseService) {
   }
 
   ngOnInit() {
@@ -25,7 +25,7 @@ export class LoginDoctorComponent implements OnInit {
     this.auth.emailLogin(this.email, this.password)
       .then(_ => {
         console.log('User logged in')
-        this.auth.isDoctor().subscribe(isDoctor => {
+        this.db.isDoctor().subscribe(isDoctor => {
           console.log(isDoctor)
           if(isDoctor) {
             this.router.navigate(['/user/doctor'])

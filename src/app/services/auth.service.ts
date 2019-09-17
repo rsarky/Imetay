@@ -14,7 +14,7 @@ export class AuthService {
   private user: Observable<firebase.User>
   private userDetails: firebase.User = null;
 
-  constructor(private afAuth: AngularFireAuth, private router: Router, private db: FirebaseService) {
+  constructor(private afAuth: AngularFireAuth, private router: Router) {
     this.user = afAuth.user;
     this.user.subscribe((user) => {
       if (user !== null) {
@@ -45,12 +45,5 @@ export class AuthService {
 
   logout() {
     this.afAuth.auth.signOut().then(_ => this.router.navigate(['/user/login']))
-  }
-
-  isDoctor(): Observable<boolean> {
-    return this.user.pipe(
-      map((user) => this.db.isDoctor(user.uid)),
-      concatAll()
-    )
   }
 }
