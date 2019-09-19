@@ -37,6 +37,7 @@ import { RegisterDoctorComponent } from './register-doctor/register-doctor.compo
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { UpcomingPatientsComponent } from './upcoming-patients/upcoming-patients.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { PatientListComponent } from './patient-list/patient-list.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     HeaderComponent,
     LoginDoctorComponent,
     RegisterDoctorComponent,
-    UpcomingPatientsComponent
+    UpcomingPatientsComponent,
+    PatientListComponent
   ],
   imports: [
     BrowserModule,

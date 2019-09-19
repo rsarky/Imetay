@@ -1,3 +1,7 @@
-<p>patient-view works!
-    This is where patients will be able to see the expected waiting time.
-</p>
+<div class="main mat-typography" fxLayout="row" fxLayoutAlign="space-evenly">
+    <div *ngFor="let doctor of doctors | async">
+        <div *ngIf="doctor">
+            <app-patient-list [doctor]="doctor"></app-patient-list>
+        </div>
+    </div>
+</div>

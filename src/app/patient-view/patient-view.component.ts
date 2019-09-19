@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Doctor } from '../models/Doctor';
+import { FirebaseService } from '../services/firebase.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-patient-view',
@@ -7,7 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PatientViewComponent implements OnInit {
 
-  constructor() { }
+  doctors: Observable<{name: string, id: string}[]>
+
+  constructor(private db: FirebaseService) {
+    // this.db.getDoctors().subscribe(doctors => {
+    //   this.doctors = doctors
+    //   console.log(doctors)
+    // })
+    this.doctors = this.db.getDoctors()
+  }
 
   ngOnInit() {
   }
