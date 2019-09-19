@@ -103,21 +103,17 @@ def plot_num_patient ( appointments , doctors ) :
 
 	for dept_name in doc_dept : 
 		## To the dictionary , add doctor wise patient influx 
-		num_patientsWEEK[dept_name] = convert_to_list ( HJ.get_patient_times( appointments , doc_dept[dept_name] , "week") , 0 , 5 ) 
+		num_patientsWEEK[dept_name] = convert_to_list ( HJ.get_patient_times( appointments , doc_dept[dept_name] , "week") , 1 , 6 ) 
 		num_patientsDAY[dept_name] = convert_to_list ( HJ.get_patient_times( appointments , doc_dept[dept_name] , "day") , 1, 31 ) 
 		
-	## for entire dept, plot graph 
-	for k in num_patientsDAY : 
-		print ( k )
-		print ( len ( num_patientsDAY[k]) )
-	BH.dept_patients( num_patientsWEEK , [ "Monday","Tuesday", "Wednesday","Thursday","Friday","Saturday" ] , "Week day")
+	BH.dept_patients( num_patientsWEEK , [ i for i in range(6) ] , "Week day" , [ "Monday","Tuesday", "Wednesday","Thursday","Friday","Saturday" ])
 	BH.dept_patients( num_patientsDAY , [ i for i in range(1,32) ] , "Day of Month")
 
 
 
 def start_visualizations ( filename ) : 
 	ptnt , apnt , doc = HJ.preprocessData ( filename )
-	#plot_appointment ( apnt , doc )
+	plot_appointment ( apnt , doc )
 	plot_num_patient ( apnt , doc )
 
 
