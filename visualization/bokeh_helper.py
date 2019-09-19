@@ -8,7 +8,7 @@ colors = ["#c9d9d3", "#718dbf", "#e84d60" , "#E52B50" , "#FFBF00" , "#7FFFD4" , 
 
 def ailment_graph ( x , counts ) : 
     
-    output_file("ailment.html")
+    output_file("templates/" +"ailment.html")
     source = ColumnDataSource(data=dict(x=x, counts=counts))
     p = figure(x_range=FactorRange(*x),plot_width=1000 ,  plot_height=500, title="Average Appointment Time",
                toolbar_location=None, tools="")
@@ -35,7 +35,7 @@ def dept_patients ( dept_wise_data , xaxis_data , x_label, filename , x_range = 
        tools="pan,box_zoom,reset,save,xzoom_in,xzoom_out",
        title = "Department Wise Patient Influx" , x_axis_label=x_label, y_axis_label='Number of Patients' , plot_width = 1000
     )
-    output_file( cleanup(filename) + ".html")
+    output_file( "templates/" + cleanup(filename) + ".html")
     
 
     global colors 
@@ -60,7 +60,7 @@ def doc_wise( dept_name , ailment_names , doctor_names , doc_time , name_map ) :
         doc_names.append( name_map[k])
     
     #  ailment wise 
-    output_file( cleanup(dept_name) + ".html")
+    output_file( "templates/" + cleanup(dept_name) + ".html")
     try : 
         p = figure(x_range=ailment_names, plot_width=1200 ,  plot_height=600, title="Average Appointment Time",
                    toolbar_location=None ,tools="hover", tooltips="$name @ailment: @$name mins")

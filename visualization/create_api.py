@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask , render_template 
 import visualization as VZ
 import handle_json as HJ 
 import bokeh_helper as BH
@@ -12,10 +12,7 @@ def hello():
 
 @app.route('/<string:page_name>')
 def render_page(page_name) : 
-	f = open(page_name + ".html") 
-	fk = f.read() 
-	f.close() 
-	return fk 
+	return render_template(page_name + ".html")
 
 
 if __name__ == '__main__':

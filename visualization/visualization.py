@@ -1,6 +1,5 @@
 import handle_json as HJ 
 import bokeh_helper as BH 
-import pandas as pd 
 
 def get_name_mapping ( doctors , doc_dept) : 
 	## common name dictionary , get name from doctor id 
