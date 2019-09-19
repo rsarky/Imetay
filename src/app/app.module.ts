@@ -21,6 +21,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
 import {MatDividerModule} from '@angular/material/divider';
+import { HttpClientModule } from '@angular/common/http';
 
 
 import { FirebaseService } from './services/firebase.service';
@@ -73,7 +74,8 @@ import { PatientListComponent } from './patient-list/patient-list.component';
     MatDividerModule,
     AppRoutingModule,
     FlexLayoutModule,
-    AngularFireAuthGuardModule
+    AngularFireAuthGuardModule,
+    HttpClientModule
   ],
   providers: [
     FirebaseService,

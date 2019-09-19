@@ -8,7 +8,7 @@ import { Doctor } from '../models/Doctor'
 import { AngularFireAuth } from '@angular/fire/auth';
 import { map, single, take, catchError, first, concatAll, tap, merge, concatMap } from 'rxjs/operators'
 import { AuthService } from './auth.service';
-import { isPending } from 'q';
+import { HttpClient } from '@angular/common/http';
 
 const appointmentDuration = 1800000 // in ms
 @Injectable({
@@ -19,7 +19,7 @@ export class FirebaseService {
     appointmentsRef: AngularFireList<any>
     usersRef: any
 
-    constructor(private db: AngularFireDatabase, private auth: AuthService) {
+    constructor(private db: AngularFireDatabase, private auth: AuthService, private http: HttpClient) {
         this.patientsRef = db.list('patients')
         this.appointmentsRef = db.list('appointments')
         this.usersRef = db.list('users') // receptionist and doctors
@@ -184,8 +184,11 @@ export class FirebaseService {
             }),
             map(pending => {
                 let total = 0
-                for(let i=0;i<pending.length;i++) {
-                    pending[i].expInTime =  new Date(new Date().getTime() + i*appointmentDuration).toString()
+                for (let i = 0; i < pending.length; i++) {
+                    pending[i].expInTime = new Date(new Date().getTime() + i * appointmentDuration).toString()
+                    let fifteenFromNow = new Date()
+                    fifteenFromNow.setMinutes(new Date().getMinutes() + 15)
+                    if(new Date(pending[i].expInTime) <= fifteenFromNow) this.sendSMS('+91' + pending[i].patient.phoneNumber, 'REMINDER: Your appointment is in 15 minutes.\n Proceed to the waiting area.')
                 }
                 console.log(pending)
                 return pending
@@ -200,6 +203,25 @@ export class FirebaseService {
     }
 
     completeAppointment(appId: string) {
-        return this.appointmentsRef.update(appId, { outTime: new Date().toString() }).then(_ => this.updateWaitingTimes())        
+        return this.appointmentsRef.update(appId, { outTime: new Date().toString() }).then(_ => this.updateWaitingTimes())
+    }
+
+    // TODO: Move this to a different service.
+    sendSMS(to, message) {
+        let params = {
+            phone: to,
+            message: message
+        }
+        console.log(params)
+        let headers = {
+            'Authorization': 'vJ!_S4_ZvF)SUva'
+        }
+        this.http.post('https://sfdjt9wg4c.execute-api.us-east-1.amazonaws.com/dev', params, { headers: headers }).toPromise()
+            .then(function (resp) {
+                console.log(resp)
+            })
+            .catch(function (err) {
+                console.log(err)
+            })
     }
 }

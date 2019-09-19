@@ -1,4 +1,9 @@
 .main {
     overflow: auto;
     margin-top: 30px;
+    .patient-list {
+        min-width: 200px;
+        text-align: center;
+        border-right: thin black solid;
+    }
 }

@@ -13,10 +13,6 @@ export class PatientViewComponent implements OnInit {
   doctors: Observable<{name: string, id: string}[]>
 
   constructor(private db: FirebaseService) {
-    // this.db.getDoctors().subscribe(doctors => {
-    //   this.doctors = doctors
-    //   console.log(doctors)
-    // })
     this.doctors = this.db.getDoctors()
   }
 

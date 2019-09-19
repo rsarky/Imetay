@@ -5,17 +5,19 @@
     </div>
     <div id="current-patient" *ngIf="loading; else loading">
         <div id="current">
-            <div *ngIf="patientsRemaining; else noPatients">
-                <h2>Current Patient</h2>
-                <p>Name: {{ currentAppointment?.patient.name }}</p>
-                <p>Ailment: {{ currentAppointment?.ailment }}</p>
-                <div *ngIf="isTreating; else startTreating">
-                    <button mat-flat-button color="primary" (click)="completeAppointment()">Complete Appointment</button>
-                </div>
-                <ng-template #startTreating>
+            <div *ngIf="patientsRemaining; else noPatients" fxLayout>
+                <img src="../../assets/person-icon-5.png">
+                <div class="text" fxLayout="column">
+                    <h2 class="mat-display-1">Current Patient</h2>
+                    <p class="mat-title">Name: {{ currentAppointment?.patient.name }}</p>
+                    <p class="mat-title">Ailment: {{ currentAppointment?.ailment }}</p>
+                    <div *ngIf="isTreating; else startTreating">
+                        <button mat-flat-button color="primary" (click)="completeAppointment()">Complete Appointment</button>
+                    </div>
+                    <ng-template #startTreating>
                         <button mat-flat-button color="primary" (click)="startAppointment()">Start Appointment</button>
-                </ng-template>
-                
+                    </ng-template>
+                </div>
             </div>
             <ng-template #noPatients>All done for the day!</ng-template>
         </div>
