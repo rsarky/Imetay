@@ -12,10 +12,9 @@ import { Appointment } from '../models/Appointment';
 export class PatientListComponent implements OnInit {
 
   @Input()
-  doctor: {name: string, id: string}
+  doctor: { name: string, id: string }
   appointments: Appointment[]
-
-  constructor(private db: FirebaseService) { 
+  constructor(private db: FirebaseService) {
     console.log(this.doctor)
     // 
   }
@@ -24,10 +23,16 @@ export class PatientListComponent implements OnInit {
     console.log(this.doctor)
     this.db.getAppointmentsFromDoctorUid(this.doctor.id).subscribe(appointments => { // TODO: Don't get all appointments :p
       // get today's appointments and sort by appointmentTime
+      console.log(appointments.length)
       this.appointments = appointments.filter(a => {
-          return new Date(a.appointmentTime).toDateString() === new Date().toDateString() && !a.outTime
+        return new Date(a.appointmentTime).toDateString() === new Date().toDateString() && !a.outTime
       }).sort((a, b) => {
         return new Date(b.appointmentTime) > new Date(a.appointmentTime) ? -1 : 1
+      })
+      this.appointments.forEach(a => {
+        let h = new Date(a.expInTime).getHours()
+        let m = new Date(a.expInTime).getMinutes()
+        a.expInTime = h + " : " + m
       })
       // if(this.appointments.length !== 0) {
       //   this.patientsRemaining = true

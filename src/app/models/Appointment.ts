@@ -4,8 +4,9 @@ export class Appointment {
     id: string
     patient: Patient
     doctorUID: string
-    appointmentTime: string
+    appointmentTime: string // Registration time.
     inTime: string
+    expInTime: string
     outTime: string
     waitingTime: string
     ailment: string
@@ -17,7 +18,7 @@ export class Appointment {
         this.appointmentTime = appt.appointmentTime
         this.inTime = appt.inTime || ''
         this.outTime = appt.outTime || ''
-        this.waitingTime = appt.waitingTime
         this.ailment = appt.ailment
+        this.expInTime = appt.expInTime || ''
     }
 }

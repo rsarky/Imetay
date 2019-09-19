@@ -36,8 +36,8 @@ export class AppointmentFormComponent implements OnInit {
     })[0].id
     this.db.createAppointment(this.appointment, this.phoneNum)
       .subscribe(
-        (e) => e.then((ref) => console.log("Appointment created")),
-        (err) => console.log(err) // TODO error to be handled on UI side.
+        (e) => e.then(_ => console.log("Appointment created")), // TODO error to be handled on UI side.
+        e => console.log(e)
       )
   }
 

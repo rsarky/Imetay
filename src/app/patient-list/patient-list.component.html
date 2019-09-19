@@ -1,8 +1,8 @@
 <h2 class="mat-h2">Dr.{{ doctor?.name }}</h2>
-<div *ngFor="let appointment of appointments">
+<div>
     <mat-list>
         <mat-list-item *ngFor="let appointment of appointments">
-            {{ appointment.patient.name }}
+            {{ appointment.patient.name }}  {{ appointment.expInTime }}
             <mat-divider></mat-divider>
         </mat-list-item>
     </mat-list>

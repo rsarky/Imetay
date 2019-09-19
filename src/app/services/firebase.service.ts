@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core'
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database'
-import { Observable } from 'rxjs'
+import { Observable, concat } from 'rxjs'
 
 import { Patient } from '../models/Patient'
 import { Appointment } from '../models/Appointment'
 import { Doctor } from '../models/Doctor'
 import { AngularFireAuth } from '@angular/fire/auth';
-import { map, single, take, catchError, first, concatAll } from 'rxjs/operators'
+import { map, single, take, catchError, first, concatAll, tap, merge, concatMap } from 'rxjs/operators'
 import { AuthService } from './auth.service';
+import { isPending } from 'q';
+
+const appointmentDuration = 1800000 // in ms
 @Injectable({
     providedIn: 'root'
 })
@@ -33,11 +36,6 @@ export class FirebaseService {
         return this.patientsRef.push(patientData)
     }
 
-    calculateWaitingTime() {
-        // TODO
-        return "dummy"
-    }
-
     /* Returns patient id given a phone number*/
     getPatientFromPhone(phoneNumber: number): Observable<Patient> {
         let data
@@ -52,13 +50,32 @@ export class FirebaseService {
             )
     }
 
+    findInTime(appointment: Appointment): Observable<string> {
+        let pendingAppointments
+        return this.getAppointmentsFromDoctorUid(appointment.doctorUID).pipe(
+            take(1),
+            map((appointments) => {
+                console.log("called")
+                pendingAppointments = appointments.filter(a => new Date(a.appointmentTime).toDateString() === new Date().toDateString() && !a.outTime)
+                console.log(pendingAppointments)
+                let waitingTime = pendingAppointments ? pendingAppointments.length * appointmentDuration : 0
+                return new Date(new Date().getTime() + waitingTime).toString()
+            })
+        )
+    }
+
+    // map(appointments => {
+    //     pendingAppointments = appointments.filter(a => {
+    //         return new Date(a.appointmentTime).toDateString() === new Date().toDateString() && !a.outTime
+    //     })
+    //     let waitingTime = pendingAppointments ? pendingAppointments.length * appointmentDuration : 0
+    //     return new Date(new Date().getTime() + waitingTime).toString()
+    // })
     createAppointment(appointment: Appointment, phoneNumber: number): Observable<Promise<any>> {
-        appointment.waitingTime = this.calculateWaitingTime()
         appointment.appointmentTime = new Date().toString()
         let appointmentData = {
             doctorUID: appointment.doctorUID, // Passed from UI
             appointmentTime: appointment.appointmentTime,
-            waitingTime: appointment.waitingTime,
             ailment: appointment.ailment
         }
 
@@ -67,16 +84,17 @@ export class FirebaseService {
         // }, (err) => { throw (err) }
         // )
         // return this.appointmentsRef.push(appointmentData)
-        return this.getPatientFromPhone(phoneNumber).pipe(
-            map((patient) => {
-                appointmentData['patient'] = patient
-                return this.appointmentsRef.push(appointmentData)
-                    .then(snap => {
-                        return this.setAppKey(snap.key)
-                    })
-            })
+        return this.findInTime(appointment).pipe(
+            map(str => {
+                appointmentData['expInTime'] = str
+            }),
+            concatMap(_ => this.getPatientFromPhone(phoneNumber).pipe(
+                map((patient) => {
+                    appointmentData['patient'] = patient
+                    return this.appointmentsRef.push(appointmentData).then(snap => this.setAppKey(snap.key))
+                })
+            ))
         )
-
     }
 
     setAppKey(key: string) {
@@ -151,10 +169,37 @@ export class FirebaseService {
 
 
     startAppointment(appId: string) {
-        return this.appointmentsRef.update(appId, {inTime: new Date().toString()})
+        return this.appointmentsRef.update(appId, { inTime: new Date().toString() })
+    }
+
+    updateWaitingTimes() {
+        return this.getAppointmentsForDoctor().pipe(
+            take(1),
+            map(appointments => {
+                return appointments.filter(a => {
+                    return new Date(a.appointmentTime).toDateString() === new Date().toDateString() && !a.outTime
+                }).sort((a, b) => {
+                    return new Date(b.appointmentTime) > new Date(a.appointmentTime) ? -1 : 1
+                })
+            }),
+            map(pending => {
+                let total = 0
+                for(let i=0;i<pending.length;i++) {
+                    pending[i].expInTime =  new Date(new Date().getTime() + i*appointmentDuration).toString()
+                }
+                console.log(pending)
+                return pending
+            }),
+            map(updates => {
+                return updates.map(a => {
+                    return this.appointmentsRef.update(a.id, a)
+                })
+            }),
+            map(promises => Promise.all(promises))
+        ).toPromise()
     }
 
     completeAppointment(appId: string) {
-        return this.appointmentsRef.update(appId, {outTime: new Date().toString()})
+        return this.appointmentsRef.update(appId, { outTime: new Date().toString() }).then(_ => this.updateWaitingTimes())        
     }
 }
