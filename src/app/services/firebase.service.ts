@@ -39,7 +39,7 @@ export class FirebaseService {
     }
 
     /* Returns patient id given a phone number*/
-    getPatientFromPhone(phoneNumber: number): Observable<string> {
+    getPatientFromPhone(phoneNumber: number): Observable<Patient> {
         let data
         return this.db.list('/patients', ref => ref.orderByChild('phoneNumber').equalTo(phoneNumber))
             .snapshotChanges()
@@ -47,12 +47,12 @@ export class FirebaseService {
                 first(),
                 map(s => {
                     if (!s.length) throw 'No patient associated with the given phone number'
-                    return s[0].key
+                    return new Patient(s[0].payload.val())
                 })
             )
     }
 
-    createAppointment(appointment: Appointment, phoneNumber: number): Observable<firebase.database.ThenableReference> {
+    createAppointment(appointment: Appointment, phoneNumber: number): Observable<Promise<any>> {
         appointment.waitingTime = this.calculateWaitingTime()
         appointment.appointmentTime = new Date().toString()
         let appointmentData = {
@@ -68,12 +68,19 @@ export class FirebaseService {
         // )
         // return this.appointmentsRef.push(appointmentData)
         return this.getPatientFromPhone(phoneNumber).pipe(
-            map((id) => {
-                appointmentData['patientUID'] = id
+            map((patient) => {
+                appointmentData['patient'] = patient
                 return this.appointmentsRef.push(appointmentData)
+                    .then(snap => {
+                        return this.setAppKey(snap.key)
+                    })
             })
         )
 
+    }
+
+    setAppKey(key: string) {
+        return this.appointmentsRef.update(key, { id: key })
     }
 
     addDoctor(doctor: Doctor, uid: string): firebase.database.ThenableReference {
@@ -140,5 +147,14 @@ export class FirebaseService {
             map(user => this.getAppointmentsFromDoctorUid(user.uid)),
             concatAll()
         )
+    }
+
+
+    startAppointment(appId: string) {
+        return this.appointmentsRef.update(appId, {inTime: new Date().toString()})
+    }
+
+    completeAppointment(appId: string) {
+        return this.appointmentsRef.update(appId, {outTime: new Date().toString()})
     }
 }

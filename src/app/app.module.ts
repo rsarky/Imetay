@@ -19,6 +19,7 @@ import { AppointmentFormComponent } from './appointment-form/appointment-form.co
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
+import {MatListModule} from '@angular/material/list';
 
 
 
@@ -34,6 +35,8 @@ import { HeaderComponent } from './header/header.component';
 import { LoginDoctorComponent } from './login-doctor/login-doctor.component';
 import { RegisterDoctorComponent } from './register-doctor/register-doctor.component';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
+import { UpcomingPatientsComponent } from './upcoming-patients/upcoming-patients.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,8 @@ import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
     DoctorViewComponent,
     HeaderComponent,
     LoginDoctorComponent,
-    RegisterDoctorComponent
+    RegisterDoctorComponent,
+    UpcomingPatientsComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +63,8 @@ import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
     MatFormFieldModule,
     MatAutocompleteModule,
     MatToolbarModule,
+    MatListModule,
+    MatSidenavModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,

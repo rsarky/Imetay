@@ -15,7 +15,7 @@ export class RegisterDoctorComponent implements OnInit {
   db: FirebaseService
 
   constructor(auth: AuthService, db: FirebaseService) { 
-    this.doctor = new Doctor()
+    this.doctor = new Doctor({})
     this.auth = auth
     this.db = db
   }

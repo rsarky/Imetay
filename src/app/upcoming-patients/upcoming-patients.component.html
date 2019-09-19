@@ -1,0 +1,8 @@
+<div>
+    <h3>Upcoming Appointments</h3>
+    <mat-list>
+        <mat-list-item *ngFor="let appointment of appointments">
+            {{ appointment.patient.name }}
+        </mat-list-item>
+    </mat-list>
+</div>
