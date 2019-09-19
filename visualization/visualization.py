@@ -74,19 +74,52 @@ def plot_appointment ( appointments, doctors ) :
 	ailment_dept , doc_dept = HJ.get_dept_info( doctors , appointments )
 	name_map = get_name_mapping( doctors , doc_dept )
 
-	## first graph : basic 	
-	# ailment_dept_tuple = create_tuples ( ailment_dept )
-	# something = [ ave_appointment(i[1] , appointments ) for i in ailment_dept_tuple ] 
-	# BH.ailment_graph( ailment_dept_tuple , something )
+	## first graph : per dept/ ailments 
+	ailment_dept_tuple = create_tuples ( ailment_dept )
+	something = [ ave_appointment(i[1] , appointments ) for i in ailment_dept_tuple ] 
+	BH.ailment_graph( ailment_dept_tuple , something )
 	
-	## second graph : 
+	## second graph type : one graph for a dept -> per ailment , per doctor 
 	for dept_name in ailment_dept :
 		doctor_ailment_times , doctor_names , ailment_names = get_appointment_times( appointments , doctors , name_map , dept_name )
 		BH.doc_wise( dept_name , ailment_names , doctor_names , doctor_ailment_times , name_map )
 
+def convert_to_list ( some_dict , start , stop  ) : 
+	cvt_list = [] 
+	for i in range(start , stop+1 ) : 
+		if i in some_dict : 
+			cvt_list.append ( some_dict[i])
+		else : 
+			cvt_list.append ( 0 )
+	return cvt_list 
+
+def plot_num_patient ( appointments , doctors ) : 
+	""" Plot graphs indicating number of patients registering at a particular time slot """
+	
+	ailment_dept , doc_dept = HJ.get_dept_info( doctors , appointments )
+	
+	num_patientsWEEK = {} 
+	num_patientsDAY = {} 
+
+	for dept_name in doc_dept : 
+		## To the dictionary , add doctor wise patient influx 
+		num_patientsWEEK[dept_name] = convert_to_list ( HJ.get_patient_times( appointments , doc_dept[dept_name] , "week") , 0 , 5 ) 
+		num_patientsDAY[dept_name] = convert_to_list ( HJ.get_patient_times( appointments , doc_dept[dept_name] , "day") , 1, 31 ) 
+		
+	## for entire dept, plot graph 
+	for k in num_patientsDAY : 
+		print ( k )
+		print ( len ( num_patientsDAY[k]) )
+	BH.dept_patients( num_patientsWEEK , [ "Monday","Tuesday", "Wednesday","Thursday","Friday","Saturday" ] , "Week day")
+	BH.dept_patients( num_patientsDAY , [ i for i in range(1,32) ] , "Day of Month")
+
+
+
 def start_visualizations ( filename ) : 
 	ptnt , apnt , doc = HJ.preprocessData ( filename )
-	plot_appointment ( apnt , doc )
+	#plot_appointment ( apnt , doc )
+	plot_num_patient ( apnt , doc )
 
 
-start_visualizations ('Final.json')
+
+start_visualizations ('data.json')

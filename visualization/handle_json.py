@@ -71,6 +71,28 @@ def get_dept_info ( doctors , appointments ) :
 
 	return ailment_dept , doc_dept
 
+
+
+def get_patient_times( appointments , doc_list , time_span ) : 
+
+	sample_dict = {} 
+	## for a particular dept, for every doctor
+	for k in appointments :  
+		if appointments[k]["doctorUID"] in doc_list : ## for a particular doctor 
+			time_slot = appointments[k]["appointmentTime"]
+			if time_span == "week" : 
+				key_val = time_slot.weekday() 
+			elif time_span == "day" : 
+				key_val = time_slot.day
+			## for every time slot, find the number of patients registered at the same instant  
+			if key_val in sample_dict : 
+				sample_dict[key_val] = sample_dict[key_val] + 1 
+			else : 
+				sample_dict[key_val] = 1
+	
+	return sample_dict 
+
+
 def preprocessData( filename ) : 
 	
 	## entry point for the script to run 
