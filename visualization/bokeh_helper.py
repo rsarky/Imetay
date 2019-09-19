@@ -9,18 +9,11 @@
 #         list_y : different values that we want to be displayed parallely 
 #     """ 
 
-#     x = [0.1, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
-#     y0 = [i**2 for i in x]
-#     y1 = [10**i for i in x]
-#     y2 = [10**(i**2) for i in x]
-
-#     # output to static HTML file
-#     output_file("log_lines.html")
 
 #     # create a new plot
 #     p = figure(
-#        tools="pan,box_zoom,reset,save,yzoom_in,yzoom_out",
-#        title = "" , x_axis_label='sections', y_axis_label='Time Stamp'
+#        tools="pan,box_zoom,reset,save,xzoom_in,xzoom_out",
+#        title = "" , x_axis_label='Day-Time', y_axis_label='Time Stamp'
 #     )
 
 #     # add some renderers
@@ -37,11 +30,12 @@
 #     return p 
 
 
-from bokeh.io import show
+from bokeh.io import show , output_file 
 from bokeh.models import ColumnDataSource, FactorRange
 from bokeh.plotting import figure
 from bokeh.core.properties import value
 
+colors = ["#c9d9d3", "#718dbf", "#e84d60" , "#E52B50" , "#FFBF00" , "#7FFFD4" , "#C8A2C8"]
 
 
 def ailment_graph ( x , counts ) : 
@@ -59,26 +53,41 @@ def ailment_graph ( x , counts ) :
     p.yaxis.axis_label = "Minutes Taken"
     show(p)
 
-def doc_wise( dept_name , ailment_names , doctor_names ) : 
+def doc_wise( dept_name , ailment_names , doctor_names , doc_time , name_map ) : 
     
+    doc_time['ailment'] = ailment_names 
+    global colors 
+    local_colors = colors[ : len(doctor_names)]
+    doc_names = []
+    for k in doctor_names : 
+        doc_names.append( name_map[k])
     
-    colors = ["#c9d9d3", "#718dbf", "#e84d60"] ## as big as doctor
+    #  ailment wise 
+    output_file(dept_name + ".html")
+    try : 
+        p = figure(x_range=ailment_names, plot_width=1200 ,  plot_height=600, title="Average Appointment Time",
+                   toolbar_location=None ,tools="hover", tooltips="$name @ailment: @$name mins")
+        # , tools="hover", tooltips="$name @fruits: @$name"
+        p.vbar_stack(doc_names, x='ailment', width=0.9, color=local_colors, source = doc_time , legend=[value(x) for x in doc_names])
+        
+        p.y_range.start = 0
+        p.x_range.range_padding = 0.1
+        p.xgrid.grid_line_color = None
+        p.axis.minor_tick_line_color = None
+        p.outline_line_color = None
+        p.xaxis.axis_label = dept_name
+        p.yaxis.axis_label = " In minutes"
+        p.legend.location = "top_left"
+        p.legend.orientation = "horizontal"
+        show(p)
 
-    doctor_ailment_times['ailment'] = ailment_names 
-            
-    ##  ailment wise 
-    p = figure(x_range=ailment_names, plot_height=250, title="Average Appointment Time",
-               toolbar_location=None, tools="hover", tooltips="$name @fruits: @$name")
-
-    p.vbar_stack('doctor_names', x='ailment', width=0.9, color=colors, source = data ,
-                 legend=[value(x) for x in ailments])
-
-    p.y_range.start = 0
-    p.x_range.range_padding = 0.1
-    p.xgrid.grid_line_color = None
-    p.axis.minor_tick_line_color = None
-    p.outline_line_color = None
-    p.legend.location = "top_left"
-    p.legend.orientation = "horizontal"
-    p.xaxis.axis_label = dept_name
-    show(p)        
+    except Exception as e:
+        print ( " EXCEPTION occured ")
+        print ( " Department" ,  dept_name )
+        print ( " Doctors  " , doc_names )
+        print ( " Ailments " , ailment_names )
+        print ( " Colors " , local_colors )
+        for k in doc_time : 
+            print (" One sample doc time " ,  doc_time[k] )
+            break 
+        print ( e )
