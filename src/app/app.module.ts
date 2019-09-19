@@ -20,7 +20,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
-
+import {MatDividerModule} from '@angular/material/divider';
 
 
 import { FirebaseService } from './services/firebase.service';
@@ -68,6 +68,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    MatDividerModule,
     AppRoutingModule,
     FlexLayoutModule,
     AngularFireAuthGuardModule

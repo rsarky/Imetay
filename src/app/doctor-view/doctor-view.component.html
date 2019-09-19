@@ -1,19 +1,19 @@
 <!-- TODO Handle observables properly. Introduce loading icons. -->
-<div fxLayout>
-    <div *ngIf="appointments">
+<div id="doctor-container" fxLayout>
+    <div id="upcoming-patients" *ngIf="appointments">
         <app-upcoming-patients [appointments]="appointments"></app-upcoming-patients>
     </div>
-    <div *ngIf="loading; else loading">
+    <div id="current-patient" *ngIf="loading; else loading">
         <div id="current">
             <div *ngIf="patientsRemaining; else noPatients">
-                <h3>Current Patient</h3>
+                <h2>Current Patient</h2>
                 <p>Name: {{ currentAppointment?.patient.name }}</p>
                 <p>Ailment: {{ currentAppointment?.ailment }}</p>
                 <div *ngIf="isTreating; else startTreating">
-                    <button mat-button (click)="completeAppointment()">Complete Appointment</button>
+                    <button mat-flat-button color="primary" (click)="completeAppointment()">Complete Appointment</button>
                 </div>
                 <ng-template #startTreating>
-                        <button mat-button (click)="startAppointment()">Start Appointment</button>
+                        <button mat-flat-button color="primary" (click)="startAppointment()">Start Appointment</button>
                 </ng-template>
                 
             </div>
