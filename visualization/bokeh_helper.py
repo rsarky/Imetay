@@ -22,8 +22,10 @@ def ailment_graph ( x , counts ) :
     p.yaxis.axis_label = "Minutes Taken"
     show(p)
 
-def dept_patients ( dept_wise_data , xaxis_data , x_label) : 
+def dept_patients ( dept_wise_data , xaxis_data , x_label, x_range = []) : 
 #     # create a new plot
+    if x_range == [] : 
+        x_range = xaxis_data 
     p = figure(
        tools="pan,box_zoom,reset,save,xzoom_in,xzoom_out",
        title = "Department Wise Patient Influx" , x_axis_label=x_label, y_axis_label='Number of Patients' , plot_width = 1000
