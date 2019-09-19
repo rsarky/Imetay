@@ -1,4 +1,4 @@
-from bokeh.io import show , output_file 
+from bokeh.io import save, output_file 
 from bokeh.models import ColumnDataSource, FactorRange
 from bokeh.plotting import figure
 from bokeh.core.properties import value
@@ -20,9 +20,14 @@ def ailment_graph ( x , counts ) :
     p.xaxis.major_label_orientation = 1
     p.xgrid.grid_line_color = None
     p.yaxis.axis_label = "Minutes Taken"
-    show(p)
+    save(p)
 
-def dept_patients ( dept_wise_data , xaxis_data , x_label, x_range = []) : 
+
+def cleanup( some_str ) : 
+    str_list = some_str.split(' ')
+    return ('').join(str_list)
+
+def dept_patients ( dept_wise_data , xaxis_data , x_label, filename , x_range = []) : 
 #     # create a new plot
     if x_range == [] : 
         x_range = xaxis_data 
@@ -30,7 +35,7 @@ def dept_patients ( dept_wise_data , xaxis_data , x_label, x_range = []) :
        tools="pan,box_zoom,reset,save,xzoom_in,xzoom_out",
        title = "Department Wise Patient Influx" , x_axis_label=x_label, y_axis_label='Number of Patients' , plot_width = 1000
     )
-    output_file(x_label + ".html")
+    output_file( cleanup(filename) + ".html")
     
 
     global colors 
@@ -43,7 +48,7 @@ def dept_patients ( dept_wise_data , xaxis_data , x_label, x_range = []) :
         p.line(xaxis_data, dept_wise_data[dept_name] , legend=dept_name )
         p.circle(xaxis_data, dept_wise_data[dept_name] , legend=dept_name, fill_color=local_colors[idx], size=8)
         idx = idx + 1
-    show(p)
+    save(p)
 
 def doc_wise( dept_name , ailment_names , doctor_names , doc_time , name_map ) : 
     
@@ -55,7 +60,7 @@ def doc_wise( dept_name , ailment_names , doctor_names , doc_time , name_map ) :
         doc_names.append( name_map[k])
     
     #  ailment wise 
-    output_file(dept_name + ".html")
+    output_file( cleanup(dept_name) + ".html")
     try : 
         p = figure(x_range=ailment_names, plot_width=1200 ,  plot_height=600, title="Average Appointment Time",
                    toolbar_location=None ,tools="hover", tooltips="$name @ailment: @$name mins")
@@ -71,7 +76,7 @@ def doc_wise( dept_name , ailment_names , doctor_names , doc_time , name_map ) :
         p.yaxis.axis_label = " In minutes"
         p.legend.location = "top_left"
         p.legend.orientation = "horizontal"
-        show(p)
+        save(p)
 
     except Exception as e:
         print ( " EXCEPTION occured ")

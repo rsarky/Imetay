@@ -106,10 +106,8 @@ def plot_num_patient ( appointments , doctors ) :
 		num_patientsWEEK[dept_name] = convert_to_list ( HJ.get_patient_times( appointments , doc_dept[dept_name] , "week") , 1 , 6 ) 
 		num_patientsDAY[dept_name] = convert_to_list ( HJ.get_patient_times( appointments , doc_dept[dept_name] , "day") , 1, 31 ) 
 		
-	BH.dept_patients( num_patientsWEEK , [ i for i in range(6) ] , "Week day" , [ "Monday","Tuesday", "Wednesday","Thursday","Friday","Saturday" ])
-	BH.dept_patients( num_patientsDAY , [ i for i in range(1,32) ] , "Day of Month")
-
-
+	BH.dept_patients( num_patientsWEEK , [ i for i in range(6) ] , "Week day" , "week" , [ "Monday","Tuesday", "Wednesday","Thursday","Friday","Saturday" ] )
+	BH.dept_patients( num_patientsDAY , [ i for i in range(1,32) ] , "Day of Month" , "day" )
 
 def start_visualizations ( filename ) : 
 	ptnt , apnt , doc = HJ.preprocessData ( filename )
@@ -118,4 +116,5 @@ def start_visualizations ( filename ) :
 
 
 
-start_visualizations ('data.json')
+
+#start_visualizations ('data.json')
