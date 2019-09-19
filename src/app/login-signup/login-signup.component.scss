@@ -1,4 +1,4 @@
-div {
+.main {
     height: 100%;
     .doctor-auth-card {
         margin-top: 5%;
@@ -12,5 +12,11 @@ div {
                 margin-bottom: 20px;
             }
         }
+    }
+    img {
+        max-width: 300px;
+        max-height: 300px;
+        width: auto;
+        height: auto;
     }
 }
