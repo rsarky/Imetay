@@ -4,6 +4,7 @@ import { FirebaseService } from '../services/firebase.service';
 import { Observable } from 'rxjs';
 import { Appointment } from '../models/Appointment';
 import { Patient } from '../models/Patient';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-doctor-view',
@@ -19,7 +20,7 @@ export class DoctorViewComponent implements OnInit {
   patientsRemaining: boolean
   loading: boolean
 
-  constructor(private db: FirebaseService) {
+  constructor(private db: FirebaseService, private router: Router) {
     this.isTreating = false
     this.loading = true
     db.getDoctor()
