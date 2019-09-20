@@ -1,4 +1,5 @@
 div {
+    margin-top: 0px;
     height: 100%;
     .reception-card {
         margin-top: 5%;
@@ -12,5 +13,16 @@ div {
                 margin-bottom: 20px;
             }
         }
+        mat-card-title {
+            text-align: center;
+        }
+    }
+    img {
+        margin-top: 10px;
+        margin-left: 15%;
+        max-height: 500px;
+        max-width: 500px;
+        height: auto;
+        width: auto;
     }
 }
