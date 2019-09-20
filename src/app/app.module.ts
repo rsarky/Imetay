@@ -22,6 +22,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
 import {MatDividerModule} from '@angular/material/divider';
 import { HttpClientModule } from '@angular/common/http';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 import { FirebaseService } from './services/firebase.service';
@@ -75,7 +76,8 @@ import { PatientListComponent } from './patient-list/patient-list.component';
     AppRoutingModule,
     FlexLayoutModule,
     AngularFireAuthGuardModule,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     FirebaseService,

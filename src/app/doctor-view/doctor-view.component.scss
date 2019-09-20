@@ -7,7 +7,9 @@
         #current {
             margin-top: 30px;
             .analytics {
-                margin-top: 20px
+                position: absolute;
+                top: 100px;
+                right: 200px;
             }
         }
         img {

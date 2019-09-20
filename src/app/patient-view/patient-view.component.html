@@ -1,6 +1,6 @@
 <div class="main mat-typography" fxLayout="row" fxLayoutAlign="space-evenly">
     <div *ngFor="let doctor of doctors | async">
-        <div *ngIf="doctor">
+        <div *ngIf="doctor" class="patient-list">
             <app-patient-list [doctor]="doctor"></app-patient-list>
         </div>
     </div>

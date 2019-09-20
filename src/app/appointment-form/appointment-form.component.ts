@@ -4,6 +4,7 @@ import { Appointment } from '../models/Appointment'
 import { Doctor } from '../models/Doctor';
 import { of, from } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
+import { DEFAULT_NOASSERT } from 'bytebuffer';
 
 @Component({
   selector: 'app-appointment-form',
@@ -18,7 +19,11 @@ export class AppointmentFormComponent implements OnInit {
   doctors: any
   matchedDoctors: any
   db: FirebaseService
+  done: boolean
+  inProgress: boolean
   constructor(db: FirebaseService) {
+    this.done = false
+    this.inProgress = false
     this.db = db
     this.appointment = new Appointment()
   }
@@ -31,12 +36,17 @@ export class AppointmentFormComponent implements OnInit {
 
   createAppointment() {
     // TODO add animation
+    this.inProgress = true
     this.appointment.doctorUID = this.doctors.filter((doctor) => {
       return doctor.name === this.selectedName
     })[0].id
     this.db.createAppointment(this.appointment, this.phoneNum)
       .subscribe(
-        (e) => e.then(_ => console.log("Appointment created")), // TODO error to be handled on UI side.
+        (e) => e.then(_ => {
+          console.log("Appointment created")
+          this.inProgress = false
+          this.done = true
+        }), // TODO error to be handled on UI side.
         e => console.log(e)
       )
   }

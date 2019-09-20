@@ -22,6 +22,8 @@
     <br>
     <button mat-raised-button color="primary" type="submit" [disabled]="!apptForm.form.valid">Submit</button>
 </form>
+<div *ngIf="inProgress"><mat-spinner></mat-spinner></div>
+<div *ngIf="done" style="margin-top: 10px;"><p>Appointment created</p></div>
 <!-- <div *ngIf="showError">
           <p style=" color: red">Invalid email-id password combination</p>
         </div> -->
