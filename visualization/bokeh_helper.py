@@ -1,4 +1,5 @@
-from bokeh.io import save, output_file 
+from bokeh.io import output_file, show , save
+from bokeh.layouts import column
 from bokeh.models import ColumnDataSource, FactorRange
 from bokeh.plotting import figure
 from bokeh.core.properties import value
@@ -10,7 +11,7 @@ def ailment_graph ( x , counts ) :
     
     output_file("templates/" +"ailment.html")
     source = ColumnDataSource(data=dict(x=x, counts=counts))
-    p = figure(x_range=FactorRange(*x),plot_width=1000 ,  plot_height=500, title="Average Appointment Time",
+    p = figure(x_range=FactorRange(*x),plot_width=1200 ,  plot_height=400, title="Average Appointment Time",
                toolbar_location=None, tools="")
 
     p.vbar(x='x', top='counts', width=0.9, source=source)
@@ -20,7 +21,8 @@ def ailment_graph ( x , counts ) :
     p.xaxis.major_label_orientation = 1
     p.xgrid.grid_line_color = None
     p.yaxis.axis_label = "Minutes Taken"
-    save(p)
+    #save(p)
+    return p 
 
 
 def cleanup( some_str ) : 
@@ -33,7 +35,10 @@ def dept_patients ( dept_wise_data , xaxis_data , x_label, filename , x_range = 
         x_range = xaxis_data 
     p = figure(
        tools="pan,box_zoom,reset,save,xzoom_in,xzoom_out",
-       title = "Department Wise Patient Influx" , x_axis_label=x_label, y_axis_label='Number of Patients' , plot_width = 1000
+       title = "Department Wise Patient Influx" , x_axis_label=x_label, y_axis_label='Number of Patients' , 
+       plot_width = 1200 , 
+       plot_height = 400
+
     )
     output_file( "templates/" + cleanup(filename) + ".html")
     
@@ -48,7 +53,8 @@ def dept_patients ( dept_wise_data , xaxis_data , x_label, filename , x_range = 
         p.line(xaxis_data, dept_wise_data[dept_name] , legend=dept_name )
         p.circle(xaxis_data, dept_wise_data[dept_name] , legend=dept_name, fill_color=local_colors[idx], size=8)
         idx = idx + 1
-    save(p)
+    #save(p)
+    return p 
 
 def doc_wise( dept_name , ailment_names , doctor_names , doc_time , name_map ) : 
     
@@ -62,7 +68,7 @@ def doc_wise( dept_name , ailment_names , doctor_names , doc_time , name_map ) :
     #  ailment wise 
     output_file( "templates/" + cleanup(dept_name) + ".html")
     try : 
-        p = figure(x_range=ailment_names, plot_width=1200 ,  plot_height=600, title="Average Appointment Time",
+        p = figure(x_range=ailment_names, plot_width=1200 ,  plot_height=400, title="Average Appointment Time",
                    toolbar_location=None ,tools="hover", tooltips="$name @ailment: @$name mins")
         # , tools="hover", tooltips="$name @fruits: @$name"
         p.vbar_stack(doc_names, x='ailment', width=0.9, color=local_colors, source = doc_time , legend=[value(x) for x in doc_names])
@@ -76,7 +82,8 @@ def doc_wise( dept_name , ailment_names , doctor_names , doc_time , name_map ) :
         p.yaxis.axis_label = " In minutes"
         p.legend.location = "top_left"
         p.legend.orientation = "horizontal"
-        save(p)
+        #save(p)
+        return p 
 
     except Exception as e:
         print ( " EXCEPTION occured ")
@@ -88,3 +95,10 @@ def doc_wise( dept_name , ailment_names , doctor_names , doc_time , name_map ) :
             print (" One sample doc time " ,  doc_time[k] )
             break 
         print ( e )
+
+def save_html ( fig_list ) : 
+    
+    output_file("dashboard.html")    
+    overall = column( fig_list ) 
+    save(overall)
+    show(overall)
