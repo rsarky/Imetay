@@ -72,16 +72,17 @@ def plot_appointment ( appointments, doctors ) :
 	""" Plot graphs for appointment times  """
 	ailment_dept , doc_dept = HJ.get_dept_info( doctors , appointments )
 	name_map = get_name_mapping( doctors , doc_dept )
-
+	figures = [] 
 	## first graph : per dept/ ailments 
 	ailment_dept_tuple = create_tuples ( ailment_dept )
 	something = [ ave_appointment(i[1] , appointments ) for i in ailment_dept_tuple ] 
-	BH.ailment_graph( ailment_dept_tuple , something )
+	figures.append ( BH.ailment_graph( ailment_dept_tuple , something ) ) 
 	
 	## second graph type : one graph for a dept -> per ailment , per doctor 
 	for dept_name in ailment_dept :
 		doctor_ailment_times , doctor_names , ailment_names = get_appointment_times( appointments , doctors , name_map , dept_name )
-		BH.doc_wise( dept_name , ailment_names , doctor_names , doctor_ailment_times , name_map )
+		figures.append ( BH.doc_wise( dept_name , ailment_names , doctor_names , doctor_ailment_times , name_map ) ) 
+	return figures 
 
 def convert_to_list ( some_dict , start , stop  ) : 
 	cvt_list = [] 
@@ -104,16 +105,21 @@ def plot_num_patient ( appointments , doctors ) :
 		## To the dictionary , add doctor wise patient influx 
 		num_patientsWEEK[dept_name] = convert_to_list ( HJ.get_patient_times( appointments , doc_dept[dept_name] , "week") , 1 , 6 ) 
 		num_patientsDAY[dept_name] = convert_to_list ( HJ.get_patient_times( appointments , doc_dept[dept_name] , "day") , 1, 31 ) 
-		
-	BH.dept_patients( num_patientsWEEK , [ i for i in range(6) ] , "Week day" , "week" , [ "Monday","Tuesday", "Wednesday","Thursday","Friday","Saturday" ] )
-	BH.dept_patients( num_patientsDAY , [ i for i in range(1,32) ] , "Day of Month" , "day" )
+	
+	figures = [] 	
+	figures.append ( BH.dept_patients( num_patientsWEEK , [ i for i in range(6) ] , "Week day" , "week" , [ "Monday","Tuesday", "Wednesday","Thursday","Friday","Saturday" ] ) ) 
+	figures.append ( BH.dept_patients( num_patientsDAY , [ i for i in range(1,32) ] , "Day of Month" , "day" ) ) 
+
+	return figures 
 
 def start_visualizations ( filename ) : 
 	ptnt , apnt , doc = HJ.preprocessData ( filename )
-	plot_appointment ( apnt , doc )
-	plot_num_patient ( apnt , doc )
+	fig1 = plot_appointment ( apnt , doc )
+	fig2 = plot_num_patient ( apnt , doc )
+	fig1.extend ( fig2 )
+	BH.save_html ( fig1 )
 
 
 
 
-#start_visualizations ('data.json')
+start_visualizations ('data.json')
