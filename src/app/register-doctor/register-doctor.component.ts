@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Doctor } from '../models/Doctor';
 import { AuthService } from '../services/auth.service';
 import { FirebaseService } from '../services/firebase.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-doctor',
@@ -14,7 +15,7 @@ export class RegisterDoctorComponent implements OnInit {
   auth: AuthService
   db: FirebaseService
 
-  constructor(auth: AuthService, db: FirebaseService) { 
+  constructor(auth: AuthService, db: FirebaseService, private router: Router) { 
     this.doctor = new Doctor({})
     this.auth = auth
     this.db = db
@@ -28,6 +29,7 @@ export class RegisterDoctorComponent implements OnInit {
     .then((cred) => {
       console.log(cred)
       this.db.addDoctor(this.doctor, cred.user.uid)
+      this.router.navigate(['/user/doctor'])
     })
     .catch((e) => {
       console.log(e)
